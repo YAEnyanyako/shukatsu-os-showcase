@@ -29,5 +29,8 @@
   "tests/app.test.cjs",
   "tests/preparation.test.cjs",
   "tests/workflow.test.cjs",
-  "tests/workspace.test.cjs"
+  "tests/workspace.test.cjs",
+  "docs/case-study.en.md",
+  "docs/features.en.md",
+  "docs/features.ja.md"
 ]

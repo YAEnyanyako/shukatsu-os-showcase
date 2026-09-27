@@ -2,13 +2,27 @@
 
 # Shukatsu OS — public showcase
 
-**A small, interactive demonstration of an evidence-aware job-search workflow.**
+**An AI-assisted job-search workflow connecting company research, past selection experiences, ES revision, interview preparation, and next actions.**
 
-[日本語](README.ja.md) · [中文使用说明](README.zh-CN.md) · [Product case study](docs/case-study.ja.md) · [Evaluation](docs/evaluation.md)
+[日本語](README.ja.md) · [中文使用说明](README.zh-CN.md) · [Case study: English](docs/case-study.en.md) · [日本語](docs/case-study.ja.md) · [Evaluation](docs/evaluation.md)
 
 Company → project → deadlines, mail, ES, source-linked research, interview practice and Calendar. Four fictional companies, seven independent projects and a fully local preparation workspace.
 
 This standalone project uses **entirely fictional data**. It contains no applicant profile, private mail, production database, credentials, account links or production history. It is an AI-assisted implementation and a product/workflow design showcase.
+
+## From research to action
+
+Search accessible official and experience sources → organize seven-dimension company/industry research → distill past ES and interview lessons → review and revise an ES against confirmed experience → prepare for interviews → manage project deadlines and actions.
+
+The full working environment combines companion agent skills with a private ledger. This standalone public website demonstrates their information flow with fictional data.
+
+[Full feature map: English](docs/features.en.md) · [全機能：日本語](docs/features.ja.md)
+
+## Product ownership and real use
+
+I owned requirements, information design, acceptance review, and prioritization. I chose company → opening → event organization and rules that distinguish invitations from confirmed bookings; code was generated with AI coding tools.
+
+The private workflow recorded **215 messages across 166 companies and 243 opportunities** (Sep 27, 2026, 19:02 JST; single user). These are aggregate operating records; the public app uses fictional fixtures. The case study explains the decisions and measurement definitions.
 
 ## Try it in five minutes
 
@@ -35,7 +49,7 @@ The circular-arrow button resets this browser's demo state. Dates are fixed fict
 | AI inference and extraction | Not connected; structured fixtures stand in for this stage |
 | Email, recruitment portals, calendar services, submissions | Not connected; no external actions |
 
-Seven independently identified projects illustrate multiple opportunities per company. The demo does not claim production robustness, extraction accuracy, user adoption or time savings.
+Seven independently identified projects illustrate multiple opportunities per company. The case study separates verified operating volumes from the fictional demo dataset.
 
 ## Product decisions
 
