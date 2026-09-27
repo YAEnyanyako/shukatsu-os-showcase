@@ -1,0 +1,14 @@
+{
+  "name": "shukatsu-os-showcase",
+  "version": "2.0.0",
+  "private": true,
+  "description": "A fictional, local-only job-search workflow demonstration.",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "check": "node --test tests/*.test.cjs && python3 scripts/check_public.py"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shukatsu OS — a fictional, interactive job-search workflow demo. Company-based triage, evidence-backed dates and reviewable next actions.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; font-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="light">
+  <title>Shukatsu OS — Public Demo</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="src/fixtures.js" defer></script>
+  <script src="src/workflow.js" defer></script>
+  <script src="src/catalog.js" defer></script>
+  <script src="src/preparation.js" defer></script>
+  <script src="src/workbench.js" defer></script>
+  <script src="src/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">メインコンテンツへ</a>
+  <aside class="sidebar" aria-label="メインナビゲーション">
+    <a class="brand" href="#overview" aria-label="Shukatsu OS ホーム"><span class="brand-mark">s<span>o</span></span><span>shukatsu<span class="brand-os">OS / WORKFLOW LAB</span></span></a>
+    <div class="nav-caption">WORKSPACE</div>
+    <nav id="navigation"></nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-note"><span class="status-dot"></span> 公開デモ環境<strong>すべて架空のデータ</strong><p>メール送信・予約・外部接続は<br>行いません。</p></div>
+      <a class="doc-link" href="docs/case-study.ja.md">プロジェクトの背景 <span aria-hidden="true">↗</span></a>
+      <div class="edition">DESIGNED FOR CLARITY · v2.0</div>
+    </div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div><span class="breadcrumb">WORKSPACE</span><span class="breadcrumb-sep">/</span><span id="page-label">概要</span></div><div class="topbar-right"><span class="demo-pill"><span></span> SYNTHETIC DEMO</span><button class="icon-button" id="reset" aria-label="デモを初期状態に戻す" title="デモをリセット">↺</button></div></header>
+    <main id="content" tabindex="-1"></main>
+    <footer class="footer"><span>Shukatsu OS <span class="footer-dot">·</span> Evidence before action.</span><span id="storage-status">このブラウザ内だけに保存</span><a href="README.md">English README ↗</a></footer>
+  </div>
+  <dialog id="source-dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <noscript><div class="noscript">このデモの操作には JavaScript が必要です。概要は README.md から確認できます。</div></noscript>
+</body>
+</html>
