@@ -4,7 +4,7 @@
 
 ## 怎么看
 
-从[在线操作指南](https://yaenyanyako.github.io/shukatsu-os-showcase/#guide)体验。若看本地副本，在项目文件夹运行 `python3 -m http.server 8876 --bind 127.0.0.1`，再用独立浏览器打开 `http://127.0.0.1:8876/`；嵌入式预览可能拦截本地文件。无需依赖、账号或API key。
+从[在线操作指南](https://yaenyanyako.github.io/shukatsu-os-showcase/#guide)体验，无需账号或API key。本地运行、检查与发布步骤见[维护说明](docs/maintainer.md)。
 
 1. 点击 **12 件のサンプルを仕分ける**：查看按公司整理后的通知与下一步。
 2. 点击 Mori Systems 的 **通知の根拠を見る**：查看为什么取消期限不等于报名期限。
@@ -34,14 +34,9 @@
 
 研究收集、蒸馏内容与 Calendar 连接均为演示；没有连接真实网站、AI 模型或账户。ES 和回答只留在你的浏览器里，不会写进 GitHub 发布包。
 
-## 怎么放到 GitHub
+## 维护和发布
 
-1. 建一个新仓库，例如 `shukatsu-os-showcase`。
-2. 上传**这个项目文件夹里面的内容**，让 `index.html` 位于仓库根目录；保留 `src`、`assets` 等子文件夹。
-3. 要展示网页，在仓库 **Settings → Pages → Deploy from a branch** 中，选择默认分支和 **/(root)**，保存。
-4. GitHub 部署完成后，把 Pages 提供的网址作为作品集演示链接。
-
-仓库本身的 README 会展示项目介绍、操作方法、设计选择和验证范围。网页部署方法已参照 [GitHub 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
+本地运行、验证、GitHub Pages 发布和打包步骤统一放在[维护说明](docs/maintainer.md)。项目更新应保留原提交历史，发布前检查公开文件与架空截图。
 
 ## 展示时怎么解释
 

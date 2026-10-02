@@ -18,7 +18,7 @@ Example addresses use reserved `example.com` subdomains. There are no applicant 
 
 `release-files.json` is the explicit public-file allowlist. The packaging script checks the file set and scans text before creating an archive. It excludes all Git history and machine metadata. Symbolic links and files outside the allowlist cause a failure.
 
-The scan checks local user paths, non-example email addresses, account-mail URLs and common credential patterns. It is a guard against accidental additions, not a proof that arbitrary future content is safe. Newly added public files still need a content review.
+The scan checks local user paths, non-example email addresses, account-mail URLs and common credential patterns. It is a guard against accidental additions, not a proof that arbitrary future content is safe. Newly added public files still need a content review. The fictional opening-screen PNG was captured in a fresh browser context and visually reviewed; the scan pins its reviewed digest and rejects PNG metadata, trailing data and unreviewed replacements. It does not perform OCR or prove that an arbitrary image is free of private information.
 
 ## Extending this repository
 

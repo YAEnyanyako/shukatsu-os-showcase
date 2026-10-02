@@ -33,13 +33,17 @@ Saved decisions and completed tasks affect the attention list and next-deadline 
 
 ## Public-file checks
 
-`python3 scripts/check_public.py` checks the 38-file release allowlist, forbidden file types, symlinks, user paths, non-example email domains, account-mail links, common credential patterns, local documentation links and SVG syntax. Packaging repeats the check and excludes Git history. The final archive is checked against the allowlist and current file bytes.
+The v2.1 feature update passed static checks of **38 public files**. Entrance documentation and a fictional screenshot were added afterwards. `python3 scripts/check_public.py` checks the current explicit release allowlist, forbidden file types, symlinks, user paths, non-example email domains, account-mail links, common credential patterns, local documentation links and SVG syntax. Packaging repeats the check and excludes Git history. The final archive is checked against the allowlist and current file bytes.
 
-The release contains freshly authored fictional material. No database export, actual applicant history or genuine third-party experience post is included. Browser-local ES and answers are not part of the archive. The static scan is a safeguard, not exhaustive secret detection.
+The release contains freshly authored fictional material. No database export, actual applicant history or genuine third-party experience post is included. Browser-local ES and answers are not part of the archive. The screenshot was captured from the public demo in a fresh, logged-out browser context and visually reviewed. Its reviewed digest and PNG structure are checked; image metadata, trailing data and unreviewed replacements are rejected. The static scan is a safeguard, not exhaustive secret detection.
+
+## Separate browser smoke check
+
+For the portfolio entrance update, the public Pages demo was exercised in an isolated Chromium browser: notification grouping, source dialog, confirmed ES versions and folded history, reload, explicit screening invitation, scoped receipt update, fictional PDF/ICS downloads and the simulated Calendar connection. The mobile opening and guide were checked for visible controls and horizontal page overflow. These checks are separate from the 45 deterministic automated tests and are not an accessibility audit, a complete cross-browser suite or a user study.
 
 ## Not yet verified or implemented
 
-- Desktop/mobile layout, browser download UI, keyboard focus and screen readers are not automated here. Loopback HTTP serves all checked resources and opens in a standalone browser; file navigation inside embedded previews may be blocked. No browser security settings were changed.
+- Full desktop/mobile visual coverage, keyboard focus, screen readers and cross-browser compatibility remain unverified. The separate smoke check above covers selected interactions and downloads only. File navigation inside embedded previews may be blocked; use HTTP or the public site. No browser security settings were changed.
 - Live model extraction or diagnosis, email/portal access, service authentication, outbound messages, submissions or calendar writes.
 - Selection-cycle migration across years, travel buffers, cancellation notices and partial-duration events.
 - Server persistence, shared accounts, concurrent writers or continuous operation.

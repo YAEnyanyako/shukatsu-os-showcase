@@ -1,5 +1,12 @@
 # Changelog
 
+## Portfolio entrance and case-study clarification
+
+- Put a Japanese introduction, direct public-demo link, fictional screenshot, case-study links and role summary at the repository entrance; add a separate English README.
+- Move local setup, Pages publication and release packaging to the maintainer guide.
+- Explain one existing Aster scenario before five representative acceptance decisions; retain executable/simulated boundaries and the historical v2.1 verification counts.
+- Use only authored fictional data in the screenshot; no private profile, job-search records or operating counts are added.
+
 ## 2.1.0 — 2026-10-02
 
 - Added purpose-based project material shelves: research, ES, preparation and receipts. Internal JSON is hidden from document lists; an authored fictional CV PDF can be generated and downloaded.

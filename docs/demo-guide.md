@@ -2,7 +2,7 @@
 
 Use the site's **操作ガイド** or [open it directly](https://yaenyanyako.github.io/shukatsu-os-showcase/#guide). All companies, applicants, materials and dates are authored fiction. Begin with an unused project or reset the demo if you want the exact sample-version scenario. Reset clears this browser's demo inputs.
 
-For a local copy, run `python3 -m http.server 8876 --bind 127.0.0.1` inside the showcase directory, then open `http://127.0.0.1:8876/` in a standalone browser. Direct file links inside embedded previews may be blocked; use HTTP or the public site. No browser security setting needs to be disabled.
+For local setup and release maintenance, see the [maintainer guide](maintainer.md).
 
 ## 0:00 — Notice, company and evidence
 

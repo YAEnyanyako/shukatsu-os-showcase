@@ -36,5 +36,8 @@
   "src/records.js",
   "src/record_views.js",
   "tests/records.test.cjs",
-  "CHANGELOG.md"
+  "CHANGELOG.md",
+  "README.en.md",
+  "docs/maintainer.md",
+  "assets/screenshot-overview.png"
 ]
