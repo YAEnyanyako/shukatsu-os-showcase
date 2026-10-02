@@ -2,7 +2,7 @@
 
 [Public demo](https://yaenyanyako.github.io/shukatsu-os-showcase/) · [Interactive guide](https://yaenyanyako.github.io/shukatsu-os-showcase/#guide) · [Changes](../CHANGELOG.md)
 
-A workflow demo for scattered notices → evidence review → the next action. Companies, messages, documents and dates are authored fiction. No personal profile, current selection-company name or private operating volume is published.
+A workflow demo for scattered notices → evidence review → the next action. Companies, messages, documents and dates are authored fiction. No actual applicant profile or current selection-company name is included in this demo.
 
 **My role:** requirements, information design, acceptance review and prioritization. I chose company → opening → event organization, evidence-based transitions and confirmed-version selection. Code was generated with AI coding tools.
 
@@ -34,7 +34,9 @@ Editing, version save/confirmation, history display, purpose filters, state tran
 
 Notifications, extracted facts, research, experience reports and questions are authored fixtures. “Collect” saves known fictional source IDs; it does not search websites. Guidance uses simple rules and prewritten text. Calendar connection is a local simulation. Email, recruitment portals, AI APIs, external calendars, applications, messages and unattended nightly runs are disconnected.
 
-Examples were written afresh, not exported and renamed from private records. Real applicant details and operating counts are excluded.
+Examples were written afresh, not exported and renamed from private records. Real applicant details are excluded.
+
+I use the private environment in my own job search. The public demo uses fictional data. Audited aggregate counts for the private environment appear on the [profile](https://github.com/YAEnyanyako) (one user, September 27, 2026 snapshot). They describe the scope of use, not measured accuracy or time savings.
 
 ## Acceptance verification and limits
 

@@ -33,6 +33,8 @@ Also included: company research organization, ES version management, interview p
 
 [Evaluation](docs/evaluation.md) · [Changes](CHANGELOG.md) · [Public data boundary](PUBLIC_DATA.md) · [Maintainer guide](docs/maintainer.md)
 
-No real applicant profile, current selection-company name, private document, message, account or private operating volume is published. Examples were written afresh rather than exported and renamed. Browser-entered drafts stay in local storage and are not part of a static release. No AI accuracy, time savings or hiring outcomes are claimed.
+This standalone demo contains no real applicant profile, current selection-company name, private document, message or account. Examples were written afresh rather than exported and renamed. Browser-entered drafts stay in local storage and are not part of a static release. No AI accuracy, time savings or hiring outcomes are claimed.
+
+The public demo uses fictional data. Audited aggregate counts for the private environment appear on the [profile](https://github.com/YAEnyanyako) (one user, September 27, 2026 snapshot). They describe the scope of use, not measured accuracy or time savings.
 
 MIT License.
