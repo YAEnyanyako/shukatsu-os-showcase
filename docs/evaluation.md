@@ -1,13 +1,16 @@
-# Evaluation scope — v2
+# Evaluation scope — v2.1
 
 ## Implemented checks
 
-The v2 release passed **33 automated tests** with the Node built-in test runner:
+The v2.1 release passed **45 automated tests** with the Node built-in test runner:
 
 - **13 workflow tests:** company/event labels, source deduplication, confirmation precedence, cancellation cutoff semantics, unresolved companies, digests, marketing notices, overlap, rescheduling, invalid dates, input immutability and fixture counts.
 - **3 project-isolation tests:** sibling tracks with identical event names retain separate deadlines, decisions and confirmed events.
+- **8 document/receipt/review tests:** confirmed-version priority and migration, exact receipt/replay, preparation evidence, all-pending and no-reply semantics, explicit journals, project-scoped screening pass and PDF byte offsets.
 - **4 preparation tests:** independent ES versions/answers, replay-safe collection and source-linked distillation, stable Calendar updates and UTC ICS serialization, UTF-8-aware line folding.
-- **13 UI-controller tests:** processing/source detail, completion restore, decisions, rescheduling/replay, reset/storage denial, company/project routes, escaped drafts and versions, research-to-interview linkage, company/project mail filters, Calendar sync and sequence restoration, next unfinished project deadline and disabled update controls.
+- **17 UI-controller tests:** processing/source detail, completion restore, decisions, rescheduling/replay, reset/storage denial, company/project routes, escaped drafts and versions, research-to-interview linkage, company/project mail filters, Calendar sync and sequence restoration, next unfinished project deadline and disabled update controls.
+
+Four UI additions cover material groups/confirmation restore, preparation gating, exact receipt/review/journal behavior, and saved invitations remaining in daily reconciliation.
 
 Run `npm test` to reproduce. UI-controller tests execute actual application code against a minimal DOM sink in a Node virtual machine. They verify controller behavior and generated content. They are **not** browser, accessibility or visual-layout tests, and do not exercise a browser's download UI.
 
@@ -30,13 +33,13 @@ Saved decisions and completed tasks affect the attention list and next-deadline 
 
 ## Public-file checks
 
-`python3 scripts/check_public.py` checks the 31-file release allowlist, forbidden file types, symlinks, user paths, non-example email domains, account-mail links, common credential patterns, local documentation links and SVG syntax. Packaging repeats the check and excludes Git history. The final archive is checked against the allowlist and current file bytes.
+`python3 scripts/check_public.py` checks the 38-file release allowlist, forbidden file types, symlinks, user paths, non-example email domains, account-mail links, common credential patterns, local documentation links and SVG syntax. Packaging repeats the check and excludes Git history. The final archive is checked against the allowlist and current file bytes.
 
 The release contains freshly authored fictional material. No database export, actual applicant history or genuine third-party experience post is included. Browser-local ES and answers are not part of the archive. The static scan is a safeguard, not exhaustive secret detection.
 
 ## Not yet verified or implemented
 
-- Desktop/mobile visual rendering, real browser download behavior, keyboard focus and screen readers. Browser preview was blocked by its URL policy and was not bypassed.
+- Desktop/mobile layout, browser download UI, keyboard focus and screen readers are not automated here. Loopback HTTP serves all checked resources and opens in a standalone browser; file navigation inside embedded previews may be blocked. No browser security settings were changed.
 - Live model extraction or diagnosis, email/portal access, service authentication, outbound messages, submissions or calendar writes.
 - Selection-cycle migration across years, travel buffers, cancellation notices and partial-duration events.
 - Server persistence, shared accounts, concurrent writers or continuous operation.
@@ -44,3 +47,5 @@ The release contains freshly authored fictional material. No database export, ac
 ## Future evaluation
 
 For real extraction, freeze a reviewed evaluation set before tuning prompts, separate development and held-out cases, and report error denominators. Test wrong-company attribution, missed actions, invented deadlines, false confirmations and duplicated side effects separately. For preparation, evaluate source relevance, fact/experience separation and usefulness to the applicant. Measure human review time and failure recovery alongside output quality. No model or user study is claimed here.
+
+The current release is also compared locally against private company-name and applicant-information markers before upload. That comparison is not shipped, and publishes neither the names nor matching private data. Static scanning and independent code review do not establish that all future additions are safe.

@@ -18,38 +18,37 @@ The full working environment combines companion agent skills with a private ledg
 
 [Full feature map: English](docs/features.en.md) · [全機能：日本語](docs/features.ja.md)
 
-## Product ownership and real use
+## Product ownership
 
 I owned requirements, information design, acceptance review, and prioritization. I chose company → opening → event organization and rules that distinguish invitations from confirmed bookings; code was generated with AI coding tools.
 
-The private workflow recorded **215 messages across 166 companies and 243 opportunities** (Sep 27, 2026, 19:02 JST; single user). These are aggregate operating records; the public app uses fictional fixtures. The case study explains the decisions and measurement definitions.
 
-## Try it in five minutes
+## Try it in six minutes
 
-Open `index.html` in a modern browser. No installation, account or API key is needed.
+Open the [interactive guide](https://yaenyanyako.github.io/shukatsu-os-showcase/#guide), or serve this folder with `python3 -m http.server 8876 --bind 127.0.0.1` and open `http://127.0.0.1:8876/` in a standalone browser. Embedded local-file previews may block navigation. No account, dependency installation or API key is needed.
 
-1. Click **12 件のサンプルを仕分ける**. Twelve notices produce four company groups, two confirmed events and nine actions.
-2. Open **会社・プロジェクト → Aster Works**. Compare the main selection and internship tracks: different ES/test deadlines, separate mail and separate drafts.
-3. In **ES**, edit a fictional answer, save a version and check the three review perspectives. In **研究・素材棚**, collect simulated sources and save source-linked lessons.
-4. In **面接準備**, pick a round, answer questions and inspect follow-ups. Saved ES versions and distilled material appear in the preparation pack.
-5. Open **Calendar**, connect the simulation, apply the rescheduling sample and download a fictional ICS file. The two confirmed events stay at two.
-6. Re-run mail processing or research collection. Existing source IDs are skipped. Follow the [walkthrough](docs/demo-guide.md) for details.
+1. Process the twelve notices; inspect company/project attribution and source evidence.
+2. Add three fictional ES versions to an untouched Aster project. Open **資料・版**: research and ES are separate, confirmed v2 stays first while later draft v3 is folded. Download a fictional CV PDF.
+3. Collect/distill authored research, edit an ES, save a version and explicitly confirm it. Confirmation does not submit anything.
+4. Check preparation timing: the internship waits; a screening AI invitation opens practice while retaining screening status. A separate Kumo screening-pass example does not book an interview.
+5. In **未完了の確認**, apply a fictional ES receipt. The test stays pending; old, undated and saved items remain visible. Only an explicit activity reply creates a journal note.
+6. Simulate Calendar synchronization/rescheduling, download fictional ICS, replay processing and reload state. Follow the [full walkthrough](docs/demo-guide.md).
 
-The circular-arrow button resets this browser's demo state. Dates are fixed fictional timestamps in May 2030, displayed in Japan Standard Time. They are not current opportunities or reminders.
+The reset button clears this browser's demo state. All scenario dates are fictional May 2030 JST, not real opportunities or reminders. [Version 2.1 changes](CHANGELOG.md).
 
 ## What is real, simulated, or absent?
 
 | Component | Status |
 |---|---|
 | Grouping, date validation, state projection, deduplication, overlap detection | Executable deterministic JavaScript |
-| Project decisions, ES drafts/versions, interview answers | Executable local editing and persistence |
+| Documents, ES confirmation/history, answers, receipts and pending review | Executable local editing, deterministic rules and persistence; content is authored fiction |
 | Company/project research, source collection and distillation | Fictional catalog, source-linked saving and replay-safe collection simulation |
-| Calendar connection / ICS | Local connection/sync simulation; real fictional ICS download |
+| Calendar connection / PDF and ICS | Local sync simulation; executable fictional PDF/ICS generation and downloads |
 | Source messages and extracted facts | Hand-authored fictional fixtures |
 | AI inference and extraction | Not connected; structured fixtures stand in for this stage |
 | Email, recruitment portals, calendar services, submissions | Not connected; no external actions |
 
-Seven independently identified projects illustrate multiple opportunities per company. The case study separates verified operating volumes from the fictional demo dataset.
+Seven independently identified projects illustrate multiple opportunities per company. No current selection-company names or private operating volumes are published. The case study explains design decisions using only the fictional demo dataset.
 
 ## Product decisions
 
@@ -69,6 +68,8 @@ src/fixtures.js        Fictional source messages and structured facts
 src/workflow.js        Pure validation, projection and transition rules
 src/catalog.js         Fictional projects, research sources and question banks
 src/preparation.js     ES, distillation, interview and Calendar state / ICS
+src/records.js         Authored materials, stage evidence, receipts and daily-review rules
+src/record_views.js    Material/version, reconciliation and walkthrough views
 src/workbench.js       Company and project preparation views
 src/app.js             Browser UI, routing and local state
 assets/                Local styling and original SVG illustrations

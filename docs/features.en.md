@@ -19,7 +19,7 @@ Find an opportunity → identify the company and project → research the busine
 | ES coaching and revision | Combine the question, draft, company research and relevant experience; diagnose specificity, follow-up risk and expression; review revisions and check length and logic. Rewriting can be requested explicitly | Editable drafts, character counts, saved versions, and authored diagnostic guidance tied to each project |
 | Interview preparation | Combine company/role/round, submitted ES, research and distilled material into expected questions, answer outlines, reverse questions and weak points; separate mock-interview workflow supports follow-ups | Round-specific sample questions, answers, follow-ups and a preparation pack using saved ES/material |
 | Deadlines and Calendar | Separate submission, reply, event and cancellation dates; identify confirmed events, detect conflicts and update changed schedules | Connection/sync simulation plus a downloadable ICS file of fictional events |
-| Daily actions and continuity | Record reported daily activity and the next step; keep processing timestamps and source IDs so later runs focus on new items | Persistent local task state, execution evidence and duplicate-safe replay; daily journal remains part of the private workflow |
+| Daily actions and continuity | Record reported daily activity and the next step; keep processing timestamps and source IDs so later runs focus on new items | Persistent local task state, execution evidence and duplicate-safe replay; an authored activity-note example can be saved only from explicit nonempty input |
 | Platform events and scouts | Review accessible individual notices, assess role relevance and identify the next step; missing company names remain unresolved | Unknown-scout handling and company/project organization; autonomous portal application or booking is not part of this release |
 
 ## Seven dimensions of research
@@ -49,3 +49,7 @@ When invoked with available browsing tools, the agent can search and organize ac
 The public website demonstrates the information structure with fictional data. It executes local editing, rules, persistence and ICS generation; live web collection, LLM ES feedback, external mail and calendar connections require the companion environment and are not connected here.
 
 [Product case study](case-study.en.md) · [日本語](features.ja.md)
+
+## Added in v2.1
+
+Project material shelves distinguish research, ES, preparation and receipts; show confirmed versions before later drafts with timestamps and folded histories; generate a fictional CV PDF. Preparation opens on explicit invitation or a screening-pass example, keeping screening AI interviews separate from passed screening. Full reconciliation includes saved, old and undated items, exact-step receipt completion and explicit activity replies. The [walkthrough](demo-guide.md) exercises these local rules. Live email and unattended nightly runs remain disconnected.

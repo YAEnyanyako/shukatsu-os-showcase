@@ -1,40 +1,43 @@
-# Five-minute walkthrough / 5分デモ
+# Six-minute walkthrough / 6分の操作ガイド
 
-All companies, applicant examples, sources and dates are fictional. Open `index.html`. No account or API key is required.
+Use the site's **操作ガイド** or [open it directly](https://yaenyanyako.github.io/shukatsu-os-showcase/#guide). All companies, applicants, materials and dates are authored fiction. Begin with an unused project or reset the demo if you want the exact sample-version scenario. Reset clears this browser's demo inputs.
 
-## 0:00 — Notifications with evidence
+For a local copy, run `python3 -m http.server 8876 --bind 127.0.0.1` inside the showcase directory, then open `http://127.0.0.1:8876/` in a standalone browser. Direct file links inside embedded previews may be blocked; use HTTP or the public site. No browser security setting needs to be disabled.
 
-Click **12 件のサンプルを仕分ける**. The scenario produces four company groups, nine actions and two confirmed events. Open Mori Systems' source: its cancellation cutoff is not an application deadline. In the inbox, select a company, then a project. Company-wide mail and the unknown scout stay in their own buckets.
+## 0:00 — Notice, company and evidence
 
-## 0:50 — One company, two independent projects
+Click **12件の通知を仕分ける** in the guide. The base scenario produces four company groups, nine source actions and two confirmed events. Read the original notice from a task. Mori's cancellation cutoff is different from an application deadline. The unknown company and multi-company digest remain separate.
 
-Open **会社・プロジェクト → Aster Works**. Compare **プロダクト企画｜本選考** with **AI ビジネス｜夏インターン**. Their ES deadlines are May 16 and May 22 respectively; the internship also has a May 24 test deadline. Open each project's mail tab and see the matching notices. All times are JST in fictional May 2030.
+## 0:45 — Project-specific materials and versions
 
-## 1:40 — Prepare an ES with versions
+Click **Aster本選考に架空ESを3版追加**, then **資料・版を開く**. Seminar notes and experience reports are research; answers and the sample CV are ES. Each ES question has its own version group. Confirmed Version 2 opens first; Version 1 and later unconfirmed Version 3 are under **他の版**. Read their timestamps and state. Download the authored sample CV PDF. Internal JSON is excluded from material cards.
 
-In the main selection project's **ES** tab, edit a fictional draft, save a version, then edit it again. The saved version retains its previous text. Check the character count and the three diagnostic perspectives: specificity, follow-up questions and expression. Diagnostics use simple rules and authored guidance; they do not rewrite the response or claim model evaluation. The sibling project's draft remains independent.
+The add-sample operation preserves existing edited drafts and saved versions. In an already-used project, use another untouched question/project or explicitly reset to reproduce the exact sample.
 
-## 2:20 — Research and distillation
+## 1:40 — Research into ES
 
-Open the project's **研究・素材棚** tab. Run **サンプル収集を実行**, then **経験談を蒸留して素材棚へ**. Collection stores known fictional source IDs; repeating it skips them. Seven-dimension research highlights competition, culture and recent developments. The material shelf retains the experience's provider, year, round and project context. These are invented examples of source categories, not scraped OpenWork or other website posts. Open **企業・業界研究** for the comparison table.
+Open **研究・素材棚**, collect simulated sources and distill experience lessons. Repeating collection skips known IDs. Inspect seven research dimensions, comparison and provider/year/project context. Then use **ES** to edit, save a draft version and explicitly confirm a version. A new draft does not supersede a confirmed answer; confirming content does not submit it.
 
-## 3:10 — Interview preparation
+## 2:40 — Preparation at the actual stage
 
-In **面接準備**, inspect the latest saved ES version and the distilled material. Select a round, answer a question, open its follow-up and advance to the next. Review gaps after answering. Switch rounds or projects to confirm that answers remain separate. No AI interviewer or pass/fail prediction is connected.
+Open Aster's AI internship **面接準備**. It initially waits. Read and apply the fictional AI interview invitation; practice opens while the page still says **書類選考中**. In Kumo's product-selection project, a separate fictional screening-pass notice enables preparation. Neither action books an interview. Aster's main selection already has an explicit casual-meeting invitation. Mori's seminar is an event, not a selection interview. The preparation pack prioritizes confirmed ES answers.
 
-## 4:00 — Calendar and update behavior
+## 3:40 — One receipt, one step
 
-Open **Calendar → Calendar に接続（デモ）**. Two confirmed events enter the simulated calendar. Apply the Aster rescheduling sample: its existing event moves to 13:00 and the overlap resolves. Re-sync to observe two skipped entries. Download an ICS file containing the fictional confirmed events; no actual calendar is accessed. Stable UID and SEQUENCE fields describe updates, though repeated manual imports depend on the receiving calendar's behavior.
+Open **未完了の確認**, read and apply the fictional answer-form receipt. Only Aster internship ES completes; the aptitude test remains. Apply it again to verify idempotence. The notice is a fixed authored example, not a live inbox fetch. View the receipt in that project's materials under application records.
 
-## 4:40 — Repeatability and boundaries
+## 4:20 — All unfinished work and explicit activity replies
 
-Re-run mail processing: all 13 source IDs are skipped. Explain which functions execute locally, which content is authored fiction, and which integrations remain disconnected. Browser-local input is never part of the static release archive. The reset control clears this demo's state.
+The review includes source actions, a deliberately old question, an undated condition question, and future preparation. Saving an invitation removes it from the overview attention list but not from this complete reconciliation. Done, cancelled and routine examples are excluded. Mark an older example done or cancelled; reload to confirm the response persists. Doing nothing leaves the state unchanged.
 
-## Questions to prepare for
+Enter a fictional activity reply and explicitly save it. A blank reply does not create a journal entry, and an email receipt does not invent one. Inputs remain in this browser.
 
-- Why do company identity, project identity and event identity need separate fields?
-- How do company-wide mail and uncertain project assignment differ?
-- How can an experience report inform preparation without becoming a fact about current selection?
-- What happens when a rescheduling receipt arrives or the same batch runs twice?
-- Which tests verify workflow behavior, and what remains unverified in a browser?
-- What evaluation would be needed before claiming a real improvement in accuracy or preparation time?
+## 5:10 — Calendar, reschedule and replay
+
+Use **Calendar** to connect the local simulation and apply Aster's reschedule. The same event updates and two confirmed events remain two. Sync again to see skipped entries. Download ICS: its data is fictional, and no real Calendar is accessed. Import behavior is up to the receiving calendar.
+
+Re-run the notice batch: all known source IDs are skipped. Reload to restore drafts, confirmed versions, receipt evidence, answers and explicit review responses. The reset button clears demo state.
+
+## Interpret the buttons accurately
+
+Editing, local persistence, deterministic transitions and PDF/ICS generation are executable. Message content, extracted facts, research, questions and sample replies are authored fiction. Source collection and Calendar connection simulate those boundaries. This website does not connect email, portals, AI services or external calendars, send messages, submit applications or run a nightly scheduler. See [evaluation](evaluation.md) for tested and untested behavior.

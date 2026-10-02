@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  const D = window.DemoData, W = window.Workflow, C = window.Catalog, P = window.Preparation;
+  const D = window.DemoData, W = window.Workflow, C = window.Catalog, P = window.Preparation, R = window.Records;
   const KEY = 'shukatsu-os-public-demo-v2';
   const $ = selector => document.querySelector(selector);
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -25,7 +25,7 @@
   const icon = (name, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.evidence}</svg>`;
   const typeName = { invitation: '案内', confirmation: '予約確認', assessment: '選考課題', digest: 'まとめ情報', promotion: '募集情報' };
   const kindName = { prepare: '予定の準備', rsvp: '参加を検討', assessment: '本人が対応', conflict: '日程が重複', review: '会社名を確認' };
-  const viewNames = { overview: '概要', inbox: '会社別の受信箱', pipeline: '機会と進捗', evidence: '証拠と実行記録', companies: '会社・プロジェクト', research: '企業・業界研究', interview: '面接準備', calendar: 'Calendar' };
+  const viewNames = { guide: '操作ガイド', review: '未完了の確認', overview: '概要', inbox: '会社別の受信箱', pipeline: '機会と進捗', evidence: '証拠と実行記録', companies: '会社・プロジェクト', research: '企業・業界研究', interview: '面接準備', calendar: 'Calendar' };
   const allFixtures = D.messages.concat(D.update);
   let state = W.createState(), storageOK = true, companyFilter = 'all', searchTerm = '', projectFilter = 'all', toastTimer;
   const ui = {round: '', question: 0, feedback: false};
@@ -58,7 +58,7 @@
   const avatar = c => `<span class="company-avatar ${esc(c.color)}">${esc(c.initials)}</span>`;
   const processed = () => Object.keys(state.processed).length;
   function completionKey(a) { return `${a.id}@${a.sourceId}`; }
-  const isDone = a => state.completed.includes(completionKey(a));
+  const isDone = a => state.completed.includes(completionKey(a)) || R.done(state.preparation,a);
   function visibleActions(p) {
     return p.actions.filter(a => !['rsvp', 'conflict'].includes(a.kind) || !['save', 'decline'].includes(state.decisions[a.projectId || a.companyId]));
   }
@@ -87,7 +87,7 @@
   const resultBanner = () => state.runs.length ? `<div class="result-banner"><strong>${iconInline()}前回の処理：追加 ${state.runs.at(-1).added} 件 ・ 既処理 ${state.runs.at(-1).skipped} 件</strong><span>架空の通知を使用したルール実行 / ${processed()} 件の根拠を保持</span></div>` : '';
   function iconInline() { return '<span aria-hidden="true">✓　</span>'; }
   function taskRow(a) {
-    return `<div class="task-row ${isDone(a) ? 'done' : ''}"><button class="check" data-action="complete" data-id="${esc(completionKey(a))}" aria-label="${esc(a.title)}を${isDone(a) ? '未完了に戻す' : '完了にする'}" aria-pressed="${isDone(a)}">${isDone(a) ? icon('check', 13) : ''}</button><div class="task-main"><div class="task-company">${esc(company(a.companyId).name)}${a.projectId ? ` · <a href="#project/${esc(a.projectId)}">${esc(C.projects.find(p=>p.id===a.projectId)?.name || a.projectId)}</a>` : ''}</div><div class="task-title">${esc(a.title)}</div><div class="task-meta">${tag(kindName[a.kind], a.kind === 'conflict' || a.kind === 'review' ? 'amber' : a.kind === 'assessment' ? 'purple' : 'green')}<span>${a.deadline ? `回答・提出期限 ${fmt(a.deadline)} JST` : a.scheduledAt ? `開催 ${fmt(a.scheduledAt)} JST` : '期限は未確認'}</span></div></div><button class="task-source" data-action="source" data-id="${esc(a.sourceId)}" aria-label="${esc(a.title)}の根拠を見る" title="根拠を見る">${icon('evidence', 15)}</button></div>`;
+    return `<div class="task-row ${isDone(a) ? 'done' : ''}"><button class="check" ${R.done(state.preparation,a)?'disabled':''} data-action="complete" data-id="${esc(completionKey(a))}" aria-label="${esc(a.title)}を${isDone(a) ? '未完了に戻す' : '完了にする'}" aria-pressed="${isDone(a)}">${isDone(a) ? icon('check', 13) : ''}</button><div class="task-main"><div class="task-company">${esc(company(a.companyId).name)}${a.projectId ? ` · <a href="#project/${esc(a.projectId)}">${esc(C.projects.find(p=>p.id===a.projectId)?.name || a.projectId)}</a>` : ''}</div><div class="task-title">${esc(a.title)}</div><div class="task-meta">${R.done(state.preparation,a)?tag('受領通知で確認済み','green'):''}${tag(kindName[a.kind], a.kind === 'conflict' || a.kind === 'review' ? 'amber' : a.kind === 'assessment' ? 'purple' : 'green')}<span>${a.deadline ? `回答・提出期限 ${fmt(a.deadline)} JST` : a.scheduledAt ? `開催 ${fmt(a.scheduledAt)} JST` : '期限は未確認'}</span></div></div><button class="task-source" data-action="source" data-id="${esc(a.sourceId)}" aria-label="${esc(a.title)}の根拠を見る" title="根拠を見る">${icon('evidence', 15)}</button></div>`;
   }
   function schedule(p) {
     return `<section class="panel"><div class="panel-heading"><div><h2>確認済みの予定</h2><p>予約確認があるものだけ</p></div>${icon('calendar', 17)}</div>${p.calendar.length ? p.calendar.map(e => `<div class="schedule-row"><div class="date-box"><span>MAY</span><strong>${new Intl.DateTimeFormat('en', { timeZone: 'Asia/Tokyo', day: 'numeric' }).format(new Date(e.start))}</strong></div><div class="schedule-main"><h3>${esc(company(e.companyId).name)}</h3><p>${hour(e.start)}–${hour(e.end)} JST · ${esc(e.title)}</p></div><button data-action="source" data-id="${esc(e.sourceId)}" aria-label="${esc(e.title)}の予約確認を見る">${icon('arrow', 15)}</button></div>`).join('') : `<div class="empty"><p>仕分け後、確認メールに基づく<br>架空の予定がここに表示されます。</p></div>`}<div class="panel-footer">カレンダーへの書き込みはシミュレーション</div></section>`;
@@ -99,7 +99,7 @@
     const actions = visibleActions(p), remaining = actions.filter(a => !isDone(a));
     return `<section class="hero"><div><div class="eyebrow">JOB SEARCH, WITH CONTEXT</div><h1>散らばる情報を、<br>確かな次の一手へ。</h1><p>会社ごとに整理し、根拠を確認し、次の行動につなげる。<br>人と AI の協働を考える、就活ワークフローの公開デモ。</p><div class="hero-actions">${runButton()}<span class="hero-small">ログイン不要 · 外部通信なし</span></div></div><div class="flow-card"><div class="flow-top"><span class="mini-label">FROM SIGNAL TO ACTION</span><span class="flow-live"><span class="status-dot"></span> DEMO WORKFLOW</span></div><div class="flow-nodes"><div class="flow-node">${icon('inbox', 23)}<span>分散した通知</span></div><span class="flow-arrow">→</span><div class="flow-node emphasis">${icon('shield', 23)}<span>根拠を確認</span></div><span class="flow-arrow">→</span><div class="flow-node">${icon('check', 23)}<span>次のアクション</span></div></div><div class="flow-caption"><span>招待 ≠ 予約完了</span><strong>判断の理由を残す</strong></div></div></section>
       <section class="stats" aria-label="デモの集計"><div class="stat"><div class="stat-label">整理した通知 ${icon('inbox', 15)}</div><div class="stat-value">${processed()}<span>/ ${D.messages.length + (state.processed[D.update.id] ? 1 : 0)}</span></div><div class="stat-foot">架空のメールサンプル</div></div><div class="stat"><div class="stat-label">確認できた会社 ${icon('layers', 15)}</div><div class="stat-value">${p.companies.length}<span>社</span></div><div class="stat-foot">複数社情報・会社不明は別枠</div></div><div class="stat"><div class="stat-label">次のアクション ${icon('check', 15)}</div><div class="stat-value">${remaining.length}<span>件</span></div><div class="stat-foot">完了・保留の判断を反映</div></div><div class="stat alert"><div class="stat-label">日程の重複 ${icon('clock', 15)}</div><div class="stat-value">${p.conflicts.length}<span>件</span></div><div class="stat-foot">確認済みの予定と照合</div></div></section>
-      ${resultBanner()}<section class="panel work-panel"><div class="eyebrow">PREPARATION WORKSPACE</div><h2>会社 → プロジェクト → 自分の準備</h2><p>4 社・7 プロジェクト。コース別の締切、メール、ES、経験談の素材棚、面接練習を一か所に。</p><a class="button primary" href="#companies">会社・プロジェクトを開く →</a><a class="button secondary" href="#research">企業・業界研究 →</a><a class="button secondary" href="#calendar">Calendar 接続デモ →</a></section><div class="two-column"><section class="panel"><div class="panel-heading"><div><h2>次に進めること</h2><p>予定とタスク、期限の意味を分けて表示</p></div><span class="count-pill">${remaining.length} 件</span></div>${actions.length ? actions.map(taskRow).join('') : `<div class="empty"><div class="empty-icon">${icon('inbox', 23)}</div><h3>まずは、${D.messages.length} 件の通知から。</h3><p>予約確認、課題の案内、企業名のないスカウト。<br>異なる情報がどう整理されるか試してみてください。</p><button class="button secondary" data-action="process">サンプルを整理する ${icon('arrow', 15)}</button></div>`}<div class="panel-footer"><span>各項目の右端から元の通知を確認</span><a class="button text" href="#inbox">受信トレイへ ${icon('arrow', 12)}</a></div></section><div class="stack"><section class="spotlight"><div class="spotlight-top">${icon('search', 15)} A CLOSER LOOK</div><h3>その日付、本当に申込期限？</h3><p>Mori Systems の通知には「キャンセル期限」があります。日付の意味を分けることで、不要な申込タスクを作りません。</p><button class="button text" data-action="source" data-id="sample-004">通知の根拠を見る ${icon('arrow', 13)}</button></section>${schedule(p)}</div></div>
+      ${resultBanner()}<section class="panel work-panel"><div class="eyebrow">PREPARATION WORKSPACE</div><h2>会社 → プロジェクト → 自分の準備</h2><p>4 社・7 プロジェクト。コース別の締切、メール、ES、経験談の素材棚、面接練習を一か所に。</p><a class="button primary" href="#guide">順に体験する →</a><a class="button secondary" href="#companies">会社・プロジェクトを開く →</a><a class="button secondary" href="#research">企業・業界研究 →</a><a class="button secondary" href="#calendar">Calendar 接続デモ →</a></section><div class="two-column"><section class="panel"><div class="panel-heading"><div><h2>次に進めること</h2><p>予定とタスク、期限の意味を分けて表示</p></div><span class="count-pill">${remaining.length} 件</span></div>${actions.length ? actions.map(taskRow).join('') : `<div class="empty"><div class="empty-icon">${icon('inbox', 23)}</div><h3>まずは、${D.messages.length} 件の通知から。</h3><p>予約確認、課題の案内、企業名のないスカウト。<br>異なる情報がどう整理されるか試してみてください。</p><button class="button secondary" data-action="process">サンプルを整理する ${icon('arrow', 15)}</button></div>`}<div class="panel-footer"><span>各項目の右端から元の通知を確認</span><a class="button text" href="#inbox">受信トレイへ ${icon('arrow', 12)}</a></div></section><div class="stack"><section class="spotlight"><div class="spotlight-top">${icon('search', 15)} A CLOSER LOOK</div><h3>その日付、本当に申込期限？</h3><p>Mori Systems の通知には「キャンセル期限」があります。日付の意味を分けることで、不要な申込タスクを作りません。</p><button class="button text" data-action="source" data-id="sample-004">通知の根拠を見る ${icon('arrow', 13)}</button></section>${schedule(p)}</div></div>
       ${tour()}<section><div class="section-title"><h2>このデモで伝えたいこと</h2><span>PRODUCT THINKING</span></div><div class="principles"><article class="principle"><span class="principle-number">01 / ORGANIZE</span><h3>会社を軸に、文脈をつなぐ</h3><p>プラットフォーム経由でも会社が明記されていれば同じ場所へ。複数社のまとめは混ぜずに残します。</p></article><article class="principle"><span class="principle-number">02 / VERIFY</span><h3>不明な情報は、不明のまま</h3><p>企業名・期限を推測で補わず、確認待ちに。開催時刻、申込期限、取消期限を別々に扱います。</p></article><article class="principle"><span class="principle-number">03 / FOLLOW THROUGH</span><h3>新しい証拠で、次の一手を更新</h3><p>予約確認が来たら準備へ。日程が変われば重複を再判定。同じ通知は繰り返し処理しません。</p></article></div></section>`;
   }
   function messageRow(m, isProcessed) {
@@ -148,6 +148,16 @@
     const el = e.target.closest('[data-action]'); if (!el) return;
     const action = el.dataset.action;
     const id = el.dataset.id;
+    if (action === 'sample-versions') {R.examples(state.preparation,id);save();render();toast('未編集の質問に架空3版を追加。既存の保存版は変更しません。');}
+    if (action === 'confirm-version') {const [pr,q,n]=id.split('/');P.confirm(state.preparation,pr,q,Number(n));save();render();toast('この版を本人確認版にしました。企業への提出はしていません。');}
+    if (action === 'screening-pass') {R.pass(state.preparation,id);save();render();toast('架空の書類通過結果を反映。面接予約はしていません。');}
+    if (action === 'stage-source') {const text=id==='screening-pass'?'【架空】Kumo Labsプロダクト職の書類選考通過をお知らせします。面接日時は別途調整してください。予約はまだ完了していません。':'【架空】Aster Works AIインターンの一次AI面接をご案内します。この面接と回答フォームをもとに書類選考を行います。書類選考の結果通知ではありません。';$('#dialog-content').innerHTML='<div class="dialog-body"><h2 id="dialog-title">架空の選考通知</h2><p>'+esc(text)+'</p><small>根拠ID: '+esc(id)+'</small></div>';$('#source-dialog').showModal();}
+    if (action === 'invite-ai') {R.invite(state.preparation,id);save();render();toast('架空のAI面接案内を反映。書類選考中のままです。');}
+    if (action === 'receipt') {const changed=R.receive(state.preparation,id,W.project(state).actions);save();render();toast(changed?'回答フォームのみ受領確認。適性テストは未完了です。':state.preparation.records.receipts.includes(id)?'既に同じ受領通知を反映済みです。':'先に通知を仕分けてください。');}
+    if (action === 'record-source') {const r=R.receipts.find(r=>r.id===id);if(r){$('#dialog-content').innerHTML='<div class="dialog-body"><h2 id="dialog-title">'+esc(r.title)+'（架空）</h2><p>'+esc(r.at)+'</p><p class="preserve">'+esc(r.body)+'</p><small>架空の根拠ID: '+esc(r.id)+'</small></div>';$('#source-dialog').showModal();}}
+    if (action === 'review-done' || action === 'review-cancel') {R.respond(state.preparation,id,action==='review-done'?'done':'cancelled');save();render();}
+    if (action === 'save-journal') {const changed=R.journal(state.preparation,ui.journalDraft||'');save();render();toast(changed?'本人返答をこのブラウザの日誌に保存しました。':'返答が空欄のため保存しません。');}
+    if (action === 'download-cv') {const url=URL.createObjectURL(new Blob([R.pdf()],{type:'application/pdf'}));const a=document.createElement('a');a.href=url;a.download='fictional-cv.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('架空の履歴書PDFをダウンロードしました。');}
     if (action === 'collect') {const r=P.collect(state.preparation,id);save();render();toast(`模擬資料：追加 ${r.added} 件 / 既存 ${r.skipped} 件`);}
     if (action === 'distill') {const n=P.distill(state.preparation,id);save();render();toast(n ? `${n} 件を出典付きで素材棚へ保存しました。` : '新しい素材はありません。先にサンプルを収集してください。');}
     if (action === 'version') {const [projectId,q]=id.split('/');P.version(state.preparation,projectId,q);save();render();toast('この稿を保存しました。提出はしていません。');}
@@ -172,10 +182,11 @@
       const control = [...document.querySelectorAll('[data-action="complete"]')].find(button => button.dataset.id === id); if (control) control.focus();
     }
     if (action === 'reset-confirm') {
-      state = W.createState(); state.preparation=P.createState(); searchTerm = ''; companyFilter = 'all'; projectFilter='all'; ui.round='';ui.question=0;ui.feedback=false; save(); $('#source-dialog').close(); render(); toast('デモを初期状態に戻しました。');
+      state = W.createState(); state.preparation=P.createState(); searchTerm = ''; companyFilter = 'all'; projectFilter='all'; ui.round='';ui.question=0;ui.feedback=false;ui.materialType='all';ui.journalDraft=undefined; save(); $('#source-dialog').close(); render(); toast('デモを初期状態に戻しました。');
     }
   });
   document.addEventListener('change', e => {
+    if (e.target.id === 'material-type') {ui.materialType=e.target.value;render();}
     if (e.target.id === 'project-filter') {projectFilter=e.target.value;render();$('#project-filter').focus();}
     if (e.target.id === 'interview-round') {ui.round=e.target.value;ui.question=0;ui.feedback=false;render();}
     if (e.target.id === 'company-filter') { companyFilter = e.target.value; projectFilter='all'; render(); $('#company-filter').focus(); }
@@ -185,6 +196,7 @@
     }
   });
   document.addEventListener('input', e => {
+    if (e.target.dataset.journal) {ui.journalDraft=e.target.value;return;}
     if (e.target.dataset.draft) {const q=e.target.dataset.question;P.draft(state.preparation,e.target.dataset.draft,q,e.target.value);save();$('#count-'+q).textContent=P.count(e.target.value)+' / '+C.esQuestions.find(v=>v.id===q).limit+' 字';return;}
     if (e.target.dataset.answer) {P.answer(state.preparation,e.target.dataset.answer,e.target.dataset.round,Number(e.target.dataset.q),e.target.value);save();return;}
 

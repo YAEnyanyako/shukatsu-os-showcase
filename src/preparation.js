@@ -3,12 +3,14 @@
   if(typeof module==='object'&&module.exports) module.exports=api; else root.Preparation=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(C){
   'use strict';
-  const createState=()=>({drafts:{},collected:[],collections:[],notes:{},interviews:{},calendar:{connected:false,events:{},runs:[]}});
+  const createState=()=>({drafts:{},collected:[],collections:[],notes:{},interviews:{},records:{receipts:[],aiInvited:false,docPassed:false,responses:{},journal:''},calendar:{connected:false,events:{},runs:[]}});
   const validProject=id=>C.projects.some(p=>p.id===id);
   const key=(id,q)=>{if(!validProject(id)||!C.esQuestions.some(v=>v.id===q))throw Error('Unknown project or question');return id+'/'+q;};
   function es(s,id,q){return s.drafts[key(id,q)]||{text:C.esQuestions.find(v=>v.id===q).seed,versions:[]};}
   function draft(s,id,q,text){s.drafts[key(id,q)]={...es(s,id,q),text:String(text)};}
-  function version(s,id,q){const d=es(s,id,q);s.drafts[key(id,q)]={...d,versions:d.versions.concat({number:d.versions.length+1,text:d.text})};}
+  function version(s,id,q,savedAt=new Date().toISOString()){const d=es(s,id,q),number=Math.max(0,...d.versions.map(v=>v.number))+1;s.drafts[key(id,q)]={...d,versions:d.versions.concat({number,text:d.text,savedAt,confirmed:false})};}
+  function confirm(s,id,q,number){const d=es(s,id,q);if(!d.versions.some(v=>v.number===number))throw Error('Unknown version');s.drafts[key(id,q)]={...d,versions:d.versions.map(v=>({...v,confirmed:v.number===number}))};}
+  function current(s,id,q){const list=es(s,id,q).versions;return list.slice().reverse().find(v=>v.confirmed)||list.at(-1)||null;}
   const count=text=>Array.from(text).length;
   function review(text,limit){return [
     {label:'具体性',text:count(text)<120?'担当・行動・結果を具体化してください。どこを自分が決めたかがまだ見えにくい長さです。':'自分の担当、選択した行動、観察できた結果が区別できるか確認してください。文字数だけで内容の十分さは判定しません。'},
@@ -30,11 +32,17 @@
   function ics(events){const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Shukatsu OS//Fictional Demo//JA','CALSCALE:GREGORIAN'];events.forEach(e=>lines.push('BEGIN:VEVENT','UID:'+escapeICS(e.id)+'@example.com','DTSTAMP:20300513T000000Z','SEQUENCE:'+(e.sequence||0),'DTSTART:'+utc(e.start),'DTEND:'+utc(e.end),'SUMMARY:'+escapeICS(e.title),'DESCRIPTION:'+escapeICS('架空の公開デモ / 根拠 '+(e.sourceId||'')),'END:VEVENT'));lines.push('END:VCALENDAR');return lines.map(fold).join('\r\n')+'\r\n';}
   // Only restore known project/source keys. Persisted prose remains local and is escaped at render time.
   function restore(raw,allowedEvents=[]){const s=createState();if(!raw||typeof raw!=='object')return s;
-    for(const p of C.projects){for(const q of C.esQuestions){const d=raw.drafts&&raw.drafts[p.id+'/'+q.id];if(d&&typeof d.text==='string'){draft(s,p.id,q.id,d.text);s.drafts[p.id+'/'+q.id].versions=Array.isArray(d.versions)?d.versions.filter(v=>v&&typeof v.text==='string').map((v,i)=>({number:i+1,text:v.text})):[];}}
+    for(const p of C.projects){for(const q of C.esQuestions){const d=raw.drafts&&raw.drafts[p.id+'/'+q.id];if(d&&typeof d.text==='string'){draft(s,p.id,q.id,d.text);const used=new Set();s.drafts[p.id+'/'+q.id].versions=Array.isArray(d.versions)?d.versions.filter(v=>v&&typeof v.text==='string').map((v,i)=>{let n=Number.isSafeInteger(v.number)&&v.number>0?v.number:i+1;while(used.has(n))n++;used.add(n);return {number:n,text:v.text,savedAt:typeof v.savedAt==='string'&&Number.isFinite(Date.parse(v.savedAt))?v.savedAt:null,confirmed:v.confirmed===true};}):[];}}
       s.notes[p.id]=Array.isArray(raw.notes&&raw.notes[p.id])?[...new Set(raw.notes[p.id].filter(id=>C.sources.some(x=>x.id===id&&x.projectId===p.id)))]:[];
       p.rounds.forEach(r=>{const a=raw.interviews&&raw.interviews[p.id+'/'+r];[0,1,2].forEach(i=>{if(a&&typeof a[i]==='string')answer(s,p.id,r,i,a[i]);});});}
     s.collected=Array.isArray(raw.collected)?[...new Set(raw.collected.filter(id=>C.sources.some(x=>x.id===id)))]:[];
     s.collections=Array.isArray(raw.collections)?raw.collections.filter(r=>r&&C.projects.some(p=>p.companyId===r.companyId)&&Number.isInteger(r.added)&&Number.isInteger(r.skipped)&&typeof r.at==='string'&&Number.isFinite(Date.parse(r.at))).slice(-100):[];
+    if(raw.records&&typeof raw.records==='object'){
+      const r=raw.records;s.records.receipts=Array.isArray(r.receipts)?[...new Set(r.receipts.filter(x=>x==='es-received'))]:[];
+      s.records.aiInvited=r.aiInvited===true;s.records.docPassed=r.docPassed===true;
+      for(const id of ['old-question','undated-question'])if(r.responses&&['done','pending','cancelled'].includes(r.responses[id]))s.records.responses[id]=r.responses[id];
+      s.records.journal=typeof r.journal==='string'?r.journal.slice(0,20000):'';
+    }
     s.calendar.connected=raw.calendar&&raw.calendar.connected===true;
     for(const event of allowedEvents){
       const old=raw.calendar&&raw.calendar.events&&raw.calendar.events[event.id];
@@ -45,5 +53,5 @@
     s.calendar.runs=Array.isArray(raw.calendar&&raw.calendar.runs)?raw.calendar.runs.filter(r=>r&&['added','updated','skipped','removed'].every(k=>Number.isInteger(r[k])&&r[k]>=0)).slice(-100):[];
     return s;
   }
-  return {createState,es,draft,version,count,review,collect,distill,answers,answer,feedback,sync,ics,restore};
+  return {createState,es,draft,version,confirm,current,count,review,collect,distill,answers,answer,feedback,sync,ics,restore};
 });

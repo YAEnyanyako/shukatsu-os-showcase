@@ -26,4 +26,4 @@ Keep any real integration or evaluation data outside the public release. Use syn
 
 Provider names (OpenWork, BizCampus, 外資就活, ONE CAREER) are used only to illustrate source categories. All associated experience reports and lessons are authored fiction; no actual review or post is reproduced. ES examples and interview material are fictional. Browser-entered drafts remain in local storage and are never included by the static-file packager. ICS files contain only fictional confirmed events.
 
-No real operational metrics or personal achievements are asserted by this demonstration.
+Current documentation publishes neither real operating volumes nor current selection-company names. The generated CV uses the literal fictional label “Demo Applicant”. Receipt/stage/review examples are independently authored fiction; private documents are never loaded by this static site. The public packager never reads browser storage.

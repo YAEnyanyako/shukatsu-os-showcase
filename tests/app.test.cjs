@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const W = require('../src/workflow.js');
 const D = require('../src/fixtures.js');
-const C = require('../src/catalog.js'), P = require('../src/preparation.js');
+const C = require('../src/catalog.js'), P = require('../src/preparation.js'), R = require('../src/records.js');
 
 // No browser or network: exercise the real UI controller against a minimal DOM sink.
 // These tests check controller behavior, not CSS layout or browser compatibility.
@@ -22,10 +22,11 @@ function app(saved = null, failStorage = false) {
   }
   let stored = saved ? JSON.stringify(saved) : null;
   const document = { querySelector: element, querySelectorAll: () => [], addEventListener: (type, fn) => { listeners[type] = fn; } };
-  const window = { Workflow: W, DemoData: D, Catalog:C, Preparation:P, addEventListener: (name, fn) => { windowEvents[name] = fn; }, scrollTo() {} };
+  const window = { Workflow: W, DemoData: D, Catalog:C, Preparation:P, Records:R, addEventListener: (name, fn) => { windowEvents[name] = fn; }, scrollTo() {} };
   const location = { hash: '#overview' };
   const localStorage = { getItem() { if (failStorage) throw new Error('storage unavailable'); return stored; }, setItem(key, value) { if (failStorage) throw new Error('storage unavailable'); stored = value; } };
   const context = vm.createContext({ document, window, location, localStorage, Intl, setTimeout: () => 1, clearTimeout() {} });
+  vm.runInContext(fs.readFileSync(path.join(__dirname, '../src/record_views.js'), 'utf8'), context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../src/workbench.js'), 'utf8'), context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../src/app.js'), 'utf8'), context);
   return {
@@ -87,7 +88,7 @@ test('company and project navigation separates ES, deadlines and messages',()=>{
  b.navigate('project/aster-ai/es');assert.doesNotMatch(b.element('#content').innerHTML,/fictional/);
 });
 test('research collection, project notes and interview answers are linked and survive reload',()=>{
- const a=app();a.navigate('project/aster-ai/research');a.click('collect','aster');a.click('distill','aster-ai');
+ const a=app();a.click('process');a.click('invite-ai','aster-ai');a.navigate('project/aster-ai/research');a.click('collect','aster');a.click('distill','aster-ai');
  assert.equal(a.saved.preparation.notes['aster-ai'].length,4);
  a.navigate('project/aster-ai/interview');a.input({answer:'aster-ai',round:'グループ面接',q:'0'},'架空の回答');a.click('feedback','aster-ai');
  assert.match(a.element('#content').innerHTML,/回答が短く/);
@@ -118,4 +119,26 @@ test('project cards advance to the next unfinished deadline after completion',()
 test('calendar rescheduling control states explain when no update can run',()=>{
  const a=app();a.navigate('calendar');assert.match(a.element('#content').innerHTML,/data-action="update"[^>]*disabled/);
  a.click('process');a.click('update');a.navigate('calendar');assert.match(a.element('#content').innerHTML,/data-action="update"[^>]*disabled/);assert.match(a.element('#content').innerHTML,/日程変更は反映済/);
+});
+
+
+test('material shelf has research and ES groups, confirmed version first and folded history',()=>{
+ const a=app();a.click('sample-versions','aster-pm');a.navigate('project/aster-pm/materials');
+ const html=a.element('#content').innerHTML;assert.match(html,/企業研究/);assert.match(html,/本人確認版.*Version 2/);assert.match(html,/他の版/);assert.doesNotMatch(html,/<details open/);assert.doesNotMatch(html,/内部メタデータ/);
+ a.click('confirm-version','aster-pm/motivation/3');const b=app(a.saved);b.navigate('project/aster-pm/materials');assert.match(b.element('#content').innerHTML,/本人確認版.*Version 3/);
+});
+test('interview waits for evidence and shows explicit AI screening invitation without claiming pass',()=>{
+ const a=app();a.click('process');a.navigate('project/aster-ai/interview');assert.match(a.element('#content').innerHTML,/待機/);assert.doesNotMatch(a.element('#content').innerHTML,/QUESTION 1 OF 3/);
+ a.click('invite-ai','aster-ai');assert.match(a.element('#content').innerHTML,/書類選考中/);assert.match(a.element('#content').innerHTML,/QUESTION 1 OF 3/);
+ a.navigate('project/mori-service/interview');assert.match(a.element('#content').innerHTML,/選考面接ではありません/);
+});
+test('receipt completes only ES and daily review includes old undated tasks without auto diary',()=>{
+ const a=app();a.click('process');a.click('receipt','es-received');a.navigate('review');const html=a.element('#content').innerHTML;
+ assert.match(html,/適性テスト/);assert.match(html,/以前の案内/);assert.match(html,/応募条件の不明点/);assert.doesNotMatch(html,/AI ビジネス インターン ES<\/div>/);assert.equal(a.saved.preparation.records.journal,'');
+ a.click('review-done','old-question');assert.doesNotMatch(a.element('#content').innerHTML,/以前の案内への回答を確認する/);
+ a.input({journal:'yes'},'【架空】資料を整理した。');a.click('save-journal','');const b=app(a.saved);b.navigate('review');assert.match(b.element('#content').innerHTML,/資料を整理した/);
+});
+test('daily reconciliation retains saved invitations even when overview attention hides them',()=>{
+ const a=app();a.click('process');a.decision('kumo-workshop','save');a.navigate('review');
+ assert.match(a.element('#content').innerHTML,/rsvp:kumo:kumo-workshop:kumo-workshop@sample-003/);
 });

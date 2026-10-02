@@ -32,5 +32,9 @@
   "tests/workspace.test.cjs",
   "docs/case-study.en.md",
   "docs/features.en.md",
-  "docs/features.ja.md"
+  "docs/features.ja.md",
+  "src/records.js",
+  "src/record_views.js",
+  "tests/records.test.cjs",
+  "CHANGELOG.md"
 ]

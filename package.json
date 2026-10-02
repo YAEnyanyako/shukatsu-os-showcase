@@ -1,6 +1,6 @@
 {
   "name": "shukatsu-os-showcase",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "A fictional, local-only job-search workflow demonstration.",
   "scripts": {

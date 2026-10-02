@@ -11,11 +11,11 @@
     { id: 'sample-001', receivedAt: '2030-05-13T09:00:00+09:00', sender: 'Aster Works 採用チーム', address: 'recruiting@aster.example.com',
       subject: 'プロダクト企画カジュアル面談のご案内',
       body: '【架空のサンプル】\nプロダクト企画のカジュアル面談をご案内します。\n候補日時：2030年5月20日 10:00〜11:00（JST）\n参加希望の場合は5月16日12:00（JST）までにご回答ください。\nこの案内だけでは予約は完了していません。',
-      facts: { type: 'invitation', companyIds: ['aster'], projectId: 'aster-pm', eventId: 'aster-chat', title: 'カジュアル面談', start: '2030-05-20T10:00:00+09:00', end: '2030-05-20T11:00:00+09:00', applicationDeadline: '2030-05-16T12:00:00+09:00', evidence: '5月16日12:00（JST）までにご回答ください。' } },
+      facts: { type: 'invitation', companyIds: ['aster'], projectId: 'aster-pm', eventId: 'aster-chat', eventCategory: 'interview', title: 'カジュアル面談', start: '2030-05-20T10:00:00+09:00', end: '2030-05-20T11:00:00+09:00', applicationDeadline: '2030-05-16T12:00:00+09:00', evidence: '5月16日12:00（JST）までにご回答ください。' } },
     { id: 'sample-002', receivedAt: '2030-05-13T09:15:00+09:00', sender: 'Aster Works 採用チーム', address: 'recruiting@aster.example.com',
       subject: '【予約確定】5月20日 カジュアル面談',
       body: '【架空のサンプル】\nご回答ありがとうございます。下記の日時でご予約を確定しました。\n2030年5月20日 10:00〜11:00（JST）／オンライン\n参加用リンクは開催前日にお知らせします。再度の参加申込は不要です。',
-      facts: { type: 'confirmation', companyIds: ['aster'], projectId: 'aster-pm', eventId: 'aster-chat', title: 'カジュアル面談', start: '2030-05-20T10:00:00+09:00', end: '2030-05-20T11:00:00+09:00', evidence: '下記の日時でご予約を確定しました。' } },
+      facts: { type: 'confirmation', companyIds: ['aster'], projectId: 'aster-pm', eventId: 'aster-chat', eventCategory: 'interview', title: 'カジュアル面談', start: '2030-05-20T10:00:00+09:00', end: '2030-05-20T11:00:00+09:00', evidence: '下記の日時でご予約を確定しました。' } },
     { id: 'sample-003', receivedAt: '2030-05-13T09:30:00+09:00', sender: 'Campus Post｜Kumo Labs 個別案内', address: 'notice@campus.example.com',
       subject: 'Kumo Labs｜AI ビジネス体験会のご招待',
       body: '【架空のサンプル】\nKumo Labs の AI ビジネス体験会をご案内します。\n日時：2030年5月20日 10:30〜11:30（JST）\n参加希望の回答締切：5月18日18:00（JST）\n参加者には担当社員への質問時間があります。選考免除はありません。\n個別案内ですが、参加予約はまだ完了していません。',
@@ -44,7 +44,7 @@
   const update = { id: 'sample-009', receivedAt: '2030-05-14T09:00:00+09:00', sender: 'Aster Works 採用チーム', address: 'recruiting@aster.example.com',
     subject: '【日程変更確定】カジュアル面談 13:00開始',
     body: '【架空のサンプル】\n調整の結果、面談日時を以下に変更して確定しました。\n新日時：2030年5月20日 13:00〜14:00（JST）\n以前の10:00〜11:00の予約は、この新しい日時に置き換わります。',
-    facts: { type: 'confirmation', companyIds: ['aster'], projectId: 'aster-pm', eventId: 'aster-chat', title: 'カジュアル面談', start: '2030-05-20T13:00:00+09:00', end: '2030-05-20T14:00:00+09:00', evidence: '以前の10:00〜11:00の予約は、この新しい日時に置き換わります。' } };
+    facts: { type: 'confirmation', companyIds: ['aster'], projectId: 'aster-pm', eventId: 'aster-chat', eventCategory: 'interview', title: 'カジュアル面談', start: '2030-05-20T13:00:00+09:00', end: '2030-05-20T14:00:00+09:00', evidence: '以前の10:00〜11:00の予約は、この新しい日時に置き換わります。' } };
   [
     ['010', 'aster', 'aster-pm', 'es', 'プロダクト企画 本選考 ES', '2030-05-16T18:00:00+09:00'],
     ['011', 'aster', 'aster-ai', 'es', 'AI ビジネス インターン ES', '2030-05-22T12:00:00+09:00'],
