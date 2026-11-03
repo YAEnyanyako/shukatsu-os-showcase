@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-04 — 私用ツールの協作・共通記録の確認を文書化
+
+- Claudeは材料作成と識別IDつきの引き継ぎ、GPT / Codexは独立した検証・メール照合・正式台帳への登録と読み戻しを担当する分担を明確化。
+- 状態の正本を1つの台帳とし、事実・情報源・未確認事項を同じ入口から参照。
+- 回答前に読み取り記録の版・時刻・対象範囲・会話を照合し、更新や期限切れがあれば再読込。読み取り失敗時は未検証と明示。
+- 引き継ぎのIDと材料ハッシュを照合し、対象未確定・未確認事項を保留。受信・確認・提出・選考結果は別々に扱う。
+- 本人確認は原文保存→根拠つき登録→独立した読み戻し。材料欠落や事実衝突、完了後の古い対応事項も点検。
+- 本人が課題・分担・確認条件・修正判断を担当し、AIはコード生成を支援。再発件数・時間削減は未測定。
+- この文書は私用環境の改善を説明する。公開デモへの実AI・台帳接続を追加したものではない。GitHubでは更新背景を説明し、デモは機能体験に集中させる。
+
 ## Portfolio entrance and case-study clarification
 
 - Clarify that the demo stays fictional while authorized, dated aggregate usage counts appear separately on the profile; no real applicant records are published.
