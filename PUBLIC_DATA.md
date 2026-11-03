@@ -27,3 +27,7 @@ Keep any real integration or evaluation data outside the public release. Use syn
 Provider names (OpenWork, BizCampus, 外資就活, ONE CAREER) are used only to illustrate source categories. All associated experience reports and lessons are authored fiction; no actual review or post is reproduced. ES examples and interview material are fictional. Browser-entered drafts remain in local storage and are never included by the static-file packager. ICS files contain only fictional confirmed events.
 
 The standalone demo contains no current selection-company names or applicant records. Authorized aggregate operating counts appear separately on the public profile, with the one-user September 27, 2026 snapshot clearly identified; they do not measure accuracy, time savings or hiring outcomes. The generated CV uses the literal fictional label “Demo Applicant”. Receipt/stage/review examples are independently authored fiction; private documents are never loaded by this static site. The public packager never reads browser storage.
+
+## November 2026 documentation and functional demo
+
+The private workflow's collaboration design is explained in repository documentation without copying production handoff packets, database rows, materials, paths, identities or private conversations. The functional demo does not load the former shared-context lesson. Its sample data remains independently authored fiction.

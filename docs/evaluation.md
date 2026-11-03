@@ -1,4 +1,21 @@
-# Evaluation scope — v2.1
+# Evaluation scope — current release and review history
+
+## 2026-11-04 — functional demo and documentation separation
+
+The final local verification passed 53 test callbacks/assertion groups in the bundled Node runtime, plus the static public-file and documentation-link check for 44 allowlisted files. The shell did not provide npm; the existing test files were executed using their real modules with a small callback harness. This is not a claim that npm test ran. Checks cover the new populated first visit, persistence of an intentional reset, five primary navigation destinations, and removed editorial routes preserving workspace data. Browser inspection during implementation confirmed the preparation view and updated navigation. This is not a full accessibility or cross-browser audit.
+
+README was reorganized and detailed collaboration design moved to docs/improvement-note.ja.md. The demo does not load shared-context narratives. Earlier review evidence below is retained as historical reporting; it does not describe the final UI.
+
+## November 2026 review copy — checked 2026-11-03, not published
+
+The independent review copy passed **51 automated tests**: the original 45 plus five shared-context model tests and one controller isolation test. The new checks cover unread/changed/expired state, rereading, material receipt/review without submission, exact ES receipt evidence, replay, reset and preservation of the existing workspace. The full existing Calendar regression also passes after separating the lesson action names from Calendar actions.
+
+The public-file check passed for **43 allowlisted files**, including the new module and tests. This retains the existing credential, path, example-email, asset and documentation-link checks; it is not an exhaustive privacy guarantee.
+
+An isolated Chrome session exercised the review copy at desktop (1440 × 1000) and mobile (390 × 844) sizes: stale read detection, reread recovery, simulated expiry, material receipt/review, explicit ES receipt, refresh/reset isolation and existing Calendar synchronization. The mobile check found no page-level horizontal overflow. No page script errors or external page requests were observed. Desktop and mobile screenshots were visually inspected. This is a targeted smoke check, not a screen-reader audit or cross-browser test.
+
+The lesson's conversations, source statements and material are newly authored fiction. No actual AI conversations, private records or production database were used. The update month describes the review copy; no deployment is claimed. The historical v2.1 evidence below is retained as history.
+
 
 ## Implemented checks
 

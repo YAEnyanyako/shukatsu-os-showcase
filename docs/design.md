@@ -38,6 +38,14 @@ ICS export is a real download of fictional confirmed events. It uses UTC timesta
 
 ## Verification and limitations
 
-Workflow and UI-controller checks are automated with Node; the latter execute generated UI against a minimal DOM sink and do not replace browser testing. Browser preview was blocked by URL policy and was not bypassed. Desktop/mobile layout and keyboard behavior remain unverified in a real browser. See [evaluation](evaluation.md).
+Workflow and UI-controller checks are automated with Node; the latter execute generated UI against a minimal DOM sink and do not replace browser testing. Early browser preview was blocked by URL policy. A later portfolio-entrance update completed a limited Chromium smoke check; see the dated scope in evaluation.md. This is not a complete layout or accessibility audit. See [evaluation](evaluation.md).
 
 No server persistence, collaborative editing, automatic website retrieval, real model extraction, account connection, cancellation workflow, travel buffers or real application submission is implemented.
+
+## November 2026 review copy: shared-context lesson (historical)
+
+The following describes an earlier review iteration. The final functional demo no longer loads this module or exposes its routes/actions. Collaboration design now lives in GitHub documentation; legacy source remains for history.
+
+`sync_lab.js` owns two independent, in-memory fictional scenarios and their view. `app.js` routes `#sync` and `lesson-*` actions to this module. It never changes the existing workspace storage. Reload resets the lesson. Read/check outcomes use a revision and a simulated clock; the 15-minute limit illustrates one private-workflow rule, without implementing authentication, live assistants or a backend. Material receipt and review cannot create submission evidence. A separate fictional employer receipt changes only the ES receipt field.
+
+The browser continues to block external connections with its existing CSP. All new narrative and fixtures were authored independently; no production files or records were imported.

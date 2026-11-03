@@ -39,5 +39,8 @@
   "CHANGELOG.md",
   "README.en.md",
   "docs/maintainer.md",
-  "assets/screenshot-overview.png"
+  "assets/screenshot-overview.png",
+  "src/sync_lab.js",
+  "tests/sync_lab.test.cjs",
+  "docs/improvement-note.ja.md"
 ]

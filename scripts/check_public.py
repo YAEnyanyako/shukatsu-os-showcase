@@ -128,8 +128,9 @@ def check():
                 if not value or value.startswith('#'):
                     continue
                 if urlsplit(value).scheme:
-                    findings.append(f'index.html: unexpected external {key}')
-                elif not (ROOT / value).is_file():
+                    if not (tag == 'a' and key == 'href' and value == 'https://github.com/YAEnyanyako/shukatsu-os-showcase/blob/main/README.en.md'):
+                        findings.append(f'index.html: unexpected external {key}')
+                elif not (ROOT / unquote(urlsplit(value).path)).is_file():
                     findings.append('index.html: missing local asset')
     AssetParser().feed((ROOT / 'index.html').read_text(encoding='utf-8'))
     return names, findings

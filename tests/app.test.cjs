@@ -22,7 +22,7 @@ function app(saved = null, failStorage = false) {
   }
   let stored = saved ? JSON.stringify(saved) : null;
   const document = { querySelector: element, querySelectorAll: () => [], addEventListener: (type, fn) => { listeners[type] = fn; } };
-  const window = { Workflow: W, DemoData: D, Catalog:C, Preparation:P, Records:R, addEventListener: (name, fn) => { windowEvents[name] = fn; }, scrollTo() {} };
+  const window = { Workflow: W, DemoData: D, Catalog:C, Preparation:P, Records:R, SyncLab:require('../src/sync_lab.js'), addEventListener: (name, fn) => { windowEvents[name] = fn; }, scrollTo() {} };
   const location = { hash: '#overview' };
   const localStorage = { getItem() { if (failStorage) throw new Error('storage unavailable'); return stored; }, setItem(key, value) { if (failStorage) throw new Error('storage unavailable'); stored = value; } };
   const context = vm.createContext({ document, window, location, localStorage, Intl, setTimeout: () => 1, clearTimeout() {} });
@@ -39,8 +39,8 @@ function app(saved = null, failStorage = false) {
   };
 }
 
-test('controller renders an empty demo, processes fixtures and opens a source dialog', () => {
-  const a = app(); assert.match(a.element('#content').innerHTML, /12 件のサンプルを仕分ける/);
+test('controller starts with processed samples and opens a source dialog', () => {
+  const a = app(); assert.equal(Object.keys(a.saved.processed).length,12);
   a.click('process'); assert.equal(Object.keys(a.saved.processed).length, 12);
   a.click('source', 'sample-004');
   assert.equal(a.element('#source-dialog').open, true);
@@ -117,7 +117,7 @@ test('project cards advance to the next unfinished deadline after completion',()
  assert.match(card,/1 アクション/);assert.match(card,/5\/24/);assert.doesNotMatch(card,/5\/22/);
 });
 test('calendar rescheduling control states explain when no update can run',()=>{
- const a=app();a.navigate('calendar');assert.match(a.element('#content').innerHTML,/data-action="update"[^>]*disabled/);
+ const a=app();a.click('reset-confirm');a.navigate('calendar');assert.match(a.element('#content').innerHTML,/data-action="update"[^>]*disabled/);
  a.click('process');a.click('update');a.navigate('calendar');assert.match(a.element('#content').innerHTML,/data-action="update"[^>]*disabled/);assert.match(a.element('#content').innerHTML,/日程変更は反映済/);
 });
 
@@ -141,4 +141,29 @@ test('receipt completes only ES and daily review includes old undated tasks with
 test('daily reconciliation retains saved invitations even when overview attention hides them',()=>{
  const a=app();a.click('process');a.decision('kumo-workshop','save');a.navigate('review');
  assert.match(a.element('#content').innerHTML,/rsvp:kumo:kumo-workshop:kumo-workshop@sample-003/);
+});
+
+
+test('removed editorial routes show the functional overview without changing stored work', () => {
+ const a=app();const saved=JSON.stringify(a.saved);
+ for(const route of ['sync','updates']) {
+  a.navigate(route);assert.match(a.element('#content').innerHTML,/JOB SEARCH, WITH CONTEXT/);
+  assert.doesNotMatch(a.element('#navigation').innerHTML,/href="#(?:sync|updates)"/);
+  assert.equal(JSON.stringify(a.saved),saved);
+ }
+});
+
+test('reset persists an empty workspace without reseeding on reload', () => {
+ const a=app();a.click('reset-confirm');const b=app(a.saved);
+ assert.equal(Object.keys(b.saved.processed).length,0);
+ assert.match(b.element('#content').innerHTML,/12 件のサンプルを仕分ける/);
+});
+test('primary navigation has five destinations and the note is outside the main workflow', () => {
+ const a=app();const nav=a.element('#navigation').innerHTML;
+ const primary=nav.split('<details')[0];
+ assert.equal((primary.match(/class="nav-item/g)||[]).length,5);
+ assert.doesNotMatch(a.element('#content').innerHTML,/href="#sync"/);
+ assert.match(a.element('#content').innerHTML,/このデモの範囲/);
+ a.navigate('preparation');assert.match(a.element('#content').innerHTML,/#project\/aster-pm\/es/);
+ a.navigate('calendar');assert.match(a.element('#content').innerHTML,/確定予定 2 件/);
 });
