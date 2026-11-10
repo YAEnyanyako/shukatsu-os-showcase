@@ -42,3 +42,7 @@ The public demo uses fictional data. Audited aggregate counts for the private en
 The private tool now separates Claude’s material preparation and handoff from GPT / Codex’s independent verification, email checks and formal ledger updates. Both readers consult one ledger. Before answering, the workflow checks the read receipt’s revision, scope, conversation and age, rereading changed or expired information. Material receipt is separate from submission evidence. Missing files, conflicting facts and unresolved handoffs remain visible. Recurrence and time savings have not been measured; no check proves that unconnected conversations are synchronized. See the [Japanese tool update](README.md). These mechanisms describe the private workflow; the public demo has no live AI or private-ledger connection.
 
 MIT License.
+
+### Latest improvement: case-scoped notice tracking
+
+[Read the update note (Japanese)](docs/notice-tracking.ja.md): unresolved notices survive company-summary changes, while booking evidence and calendar verification are tracked separately for each selection case.

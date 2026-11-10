@@ -52,3 +52,7 @@
 [リポジトリの入口](README.md) · [English](README.en.md) · [中文](README.zh-CN.md) · [保守担当向け](docs/maintainer.md)
 
 MIT License.
+
+### 最新の改善：複数選考の通知を取りこぼさない
+
+[改善内容を読む](docs/notice-tracking.ja.md)。企業の要約が更新されても未確認通知を保持し、選考ごとの予約確認と日程照合を分けて追跡します。

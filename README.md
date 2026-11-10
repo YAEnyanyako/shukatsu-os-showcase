@@ -52,3 +52,7 @@
 [English](README.en.md) · [中文](README.zh-CN.md) · [保守担当向け](docs/maintainer.md)
 
 MIT License.
+
+### Latest improvement: case-scoped notice tracking
+
+[Read the update note (Japanese)](docs/notice-tracking.ja.md): unresolved notices survive company-summary changes, while booking evidence and calendar verification are tracked separately for each selection case.

@@ -42,5 +42,6 @@
   "assets/screenshot-overview.png",
   "src/sync_lab.js",
   "tests/sync_lab.test.cjs",
-  "docs/improvement-note.ja.md"
+  "docs/improvement-note.ja.md",
+  "docs/notice-tracking.ja.md"
 ]

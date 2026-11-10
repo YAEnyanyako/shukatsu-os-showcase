@@ -56,3 +56,7 @@ No real applicant information, active selection-company names, private documents
 ## 2.0 — 2026-09-27
 
 Company/project separation, research and distillation, ES editing, interview practice, Calendar simulation and ICS export. Follow-up documentation clarified authorship and the public/private boundary. Earlier source remains available through commit history.
+
+## 2026-11-10 — Case-scoped notice tracking design note
+
+Added a [Japanese update note](docs/notice-tracking.ja.md) documenting the local system fix: durable notices, case-specific booking/calendar verification, audited corrections and replay-safe resolution history. This public update contains documentation only; the operational implementation and personal data remain private.
